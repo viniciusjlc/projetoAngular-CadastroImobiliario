@@ -1,24 +1,31 @@
-<ng-template #content>
+<!--
+<p-dialog [(visible)]="renderizarLogin" [modal]="true" [baseZIndex]="10000"
+          [draggable]="false" [resizable]="false"  [showHeader]="false" >
   <div class="modal-header bg-dark">
     <h4 class="modal-title pull-left" style="color: whitesmoke">Login</h4>
-    <button type="button" class="close pull-right" style="color: white" aria-label="Close" (click)="modalRef.hide()">
+    <button type="button" class="close pull-right" style="color: white" aria-label="Close" (click)="renderizarLogin = false">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
-  <div class="modal-body bg-white">
-    <form>
+  <form>
+    <div class="alert alert-danger" role="alert" [hidden]="mensagemErroLogin==null">
+      {{mensagemErroLogin}}
+    </div>
+    <div class="modal-body bg-white">
       <div class="form-group">
-        <label for="exampleInputEmail1">Email</label>
-        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-               placeholder="Email">
+        <label for="loginInputEmail1">Email:</label>
+        <input type="email" class="form-control" id="loginInputEmail1" aria-describedby="emailHelp"
+               [required]="true" [(ngModel)]="usuarioLogin.email" name="email">
       </div>
       <div class="form-group">
-        <label for="exampleInputPassword1">Senha</label>
-        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Senha">
+        <label for="loginInputPassword1">Senha:</label>
+        <input type="password" class="form-control" id="loginInputPassword1"
+               [required]="true" [(ngModel)]="usuarioLogin.senha" name="senha">
       </div>
-      <button type="submit" class="btn btn-dark btn-block">Logar</button>
-      <a style="color: darkred!important;" class="form-text text-muted" href="#" (click)="openModal(template)">Não tem
+      <button (click)="logar()" type="submit" class="btn btn-dark btn-block">Logar</button>
+      <a style="color: darkred!important;" class="form-text text-muted" href="#" (click)="abrirDialogCadatro()">Não
+        tem
         conta? Clique aqui para cadastrar-se.</a>
-    </form>
-  </div>
-</ng-template>
+    </div>
+  </form>
+</p-dialog>-->

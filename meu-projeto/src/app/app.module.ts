@@ -11,12 +11,18 @@ import {UsuarioService} from './services/usuario/usuario.service';
 import {HttpClientModule} from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {UnidadeFederativaComponent} from './components/unidade-federativa/unidade-federativa.component';
-import { TipoLogradouroComponent } from './components/tipo-logradouro/tipo-logradouro.component';
-import { CadastroImobiliarioComponent } from './components/cadastro-imobiliario/cadastro-imobiliario.component';
+import {TipoLogradouroComponent} from './components/tipo-logradouro/tipo-logradouro.component';
+import {CadastroImobiliarioComponent} from './components/cadastro-imobiliario/cadastro-imobiliario.component';
 import {ButtonModule} from 'primeng/button';
 import {RippleModule} from 'primeng/ripple';
 import {ToolbarModule} from 'primeng/toolbar';
 import {InputTextModule} from 'primeng/inputtext';
+import {DialogModule} from 'primeng/dialog';
+import {AccordionModule} from 'primeng/accordion';
+import {MenuItem} from 'primeng/api';
+import {MenuItemContent} from 'primeng/menu';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {CadastroUsuarioComponent} from './components/cadastro-usuario/cadastro-usuario.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +31,8 @@ import {InputTextModule} from 'primeng/inputtext';
     LoginComponent,
     UnidadeFederativaComponent,
     TipoLogradouroComponent,
-    CadastroImobiliarioComponent
+    CadastroImobiliarioComponent,
+    CadastroUsuarioComponent
   ],
   imports: [
     BrowserModule,
@@ -39,7 +46,10 @@ import {InputTextModule} from 'primeng/inputtext';
     ButtonModule,
     RippleModule,
     ToolbarModule,
-    InputTextModule
+    InputTextModule,
+    DialogModule,
+    AccordionModule,
+    BrowserAnimationsModule
   ],
   exports: [BsDropdownModule, TooltipModule, ModalModule],
   providers: [UsuarioService],

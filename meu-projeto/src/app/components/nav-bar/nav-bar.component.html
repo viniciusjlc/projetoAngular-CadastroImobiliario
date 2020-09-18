@@ -22,7 +22,7 @@
       </li>
 
       <li [hidden]="isLogado">
-        <a class="nav-link" href="#" (click)="openModal(modalLogin)">Entre ou Cadastre-se</a>
+        <a class="nav-link" href="#" (click)="abrirDialogLogin()">Entre ou Cadastre-se</a>
       </li>
     </ul>
   </div>
@@ -51,10 +51,11 @@
   </div>
 </div>
 
-<ng-template #modalLogin>
+<p-dialog [(visible)]="renderizarLogin" [modal]="true" [baseZIndex]="10000"
+          [draggable]="false" [resizable]="false"  [showHeader]="false" >
   <div class="modal-header bg-dark">
     <h4 class="modal-title pull-left" style="color: whitesmoke">Login</h4>
-    <button type="button" class="close pull-right" style="color: white" aria-label="Close" (click)="modalRef.hide()">
+    <button type="button" class="close pull-right" style="color: white" aria-label="Close" (click)="renderizarLogin = false">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -74,20 +75,23 @@
                [required]="true" [(ngModel)]="usuarioLogin.senha" name="senha">
       </div>
       <button (click)="logar()" type="submit" class="btn btn-dark btn-block">Logar</button>
-      <a style="color: darkred!important;" class="form-text text-muted" href="#" (click)="openModal(modalCadastro)">Não
+      <a style="color: darkred!important;" class="form-text text-muted" href="#" (click)="abrirDialogCadatro()">Não
         tem
         conta? Clique aqui para cadastrar-se.</a>
     </div>
   </form>
-</ng-template>
+</p-dialog>
 
-<ng-template #modalCadastro>
+
+
+<p-dialog [(visible)]="renderizarCadastro" [showHeader]="false" [modal]="true" [baseZIndex]="10001"
+          [draggable]="false" [resizable]="false" [style]="{width: '50vw'}">
   <div class="modal-header bg-dark">
     <h4 class="modal-title pull-left" style="color: whitesmoke">Cadastrar-se</h4>
   </div>
   <div class="modal-body bg-white">
     <form>
-      <div class="alert alert-danger" role="alert" [hidden]="mensagemErroLogin==null">
+      <div class="alert alert-danger" role="alert" [hidden]="mensagemErroCadastro==null">
         {{mensagemErroCadastro}}
       </div>
       <div class="form-group">
@@ -114,8 +118,9 @@
               class="btn btn-success btn-block btn-lg">Cadastrar-se
       </button>
       <button type="button" class="btn btn-danger btn-block btn-sm"
-              (click)="[modalRef.hide(), openModal(modalLogin)]">Cancelar
+              (click)="[abrirDialogLogin(), renderizarCadastro = false]">Cancelar
       </button>
     </form>
   </div>
-</ng-template>
+</p-dialog>
+

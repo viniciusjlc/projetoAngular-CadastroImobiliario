@@ -2,6 +2,7 @@ import {Component, OnInit, TemplateRef} from '@angular/core';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
 import {Usuario} from 'src/app/models/usuario';
 import {UsuarioService} from '../../services/usuario/usuario.service';
+import {PrimeNGConfig} from 'primeng/api';
 
 @Component({
   selector: 'app-navegacao',
@@ -9,29 +10,36 @@ import {UsuarioService} from '../../services/usuario/usuario.service';
   styleUrls: ['./nav-bar.component.css']
 })
 export class NavBarComponent implements OnInit {
-  abaAtual: string = 'home';
-  isLogado: boolean = false;
-  modalRef: BsModalRef;
-  usuarioLogin: Usuario = new Usuario('teste@teste.com', 'Vinicius', 'teste');
-  mensagemErroLogin: string = null;
-  usuarioCadastro: Usuario = new Usuario('', '', '');
-  confirmacaoSenha: string = '';
-  mensagemErroCadastro: string = null;
 
   constructor(private modalService: BsModalService,
               private usuarioService: UsuarioService) {
   }
 
+  abaAtual: string = 'home';
+  isLogado: boolean = false;
+  usuarioLogin: Usuario = new Usuario('teste@teste.com', 'Vinicius', 'teste');
+  mensagemErroLogin: string = null;
+  usuarioCadastro: Usuario = new Usuario('', '', '');
+  confirmacaoSenha: string = '';
+  mensagemErroCadastro: string = null;
+  renderizarLogin: boolean = false;
+  renderizarCadastro: boolean = false;
+
+
   ngOnInit(): void {
   }
 
-  // tslint:disable-next-line:typedef
-  openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template);
+  abrirDialogLogin(): void {
+    this.mensagemErroLogin = null;
+    this.renderizarLogin = true;
+  }
+
+  abrirDialogCadatro(): void {
+    this.mensagemErroCadastro = null;
+    this.renderizarCadastro = true;
   }
 
   public async logar(): Promise<void> {
-    // tslint:disable-next-line:triple-equals
     if (this.usuarioLogin.email === '' || this.usuarioLogin.senha === '') {
       this.mensagemErroLogin = 'Email e Senha obrigatórios!';
     } else {
@@ -41,7 +49,7 @@ export class NavBarComponent implements OnInit {
       });
       if (this.isLogado) {
         this.isLogado = true;
-        this.modalService.hide();
+        this.renderizarLogin = false;
         this.usuarioLogin = await this.usuarioService.consultarPorEmail({
           email: this.usuarioLogin.email,
           senha: this.usuarioLogin.senha
@@ -63,10 +71,12 @@ export class NavBarComponent implements OnInit {
     } else {
       const retorno: boolean = await this.usuarioService.cadastrar(this.usuarioCadastro);
       if (retorno) {
-        this.modalRef.hide();
+        this.renderizarLogin = false;
+        this.renderizarCadastro = false;
       } else {
         this.mensagemErroCadastro = 'Erro ao realizar o cadastro! Entre em contato com o administrador do sistema';
       }
     }
   }
+
 }

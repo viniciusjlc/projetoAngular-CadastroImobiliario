@@ -1,4 +1,4 @@
-import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {Component, Input, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {BsModalRef, BsModalService, ModalOptions} from 'ngx-bootstrap/modal';
 
 @Component({
@@ -7,27 +7,12 @@ import {BsModalRef, BsModalService, ModalOptions} from 'ngx-bootstrap/modal';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+  @Input() renderizarLogin: boolean = false;
 
-  constructor(private modalService: BsModalService) {
+  constructor() {
   }
-  @ViewChild('teste') content: any;
-  modalRef: BsModalRef;
-
-  private modalConfig: ModalOptions = {
-    backdrop: 'static',
-    keyboard: true,
-    class: 'modal-md',
-  };
 
   ngOnInit(): void {
-  }
-
-  show(): void {
-    this.modalRef = this.modalService.show(this.content, this.modalConfig);
-  }
-
-  hide(): void {
-    this.modalRef.hide();
   }
 
 }
