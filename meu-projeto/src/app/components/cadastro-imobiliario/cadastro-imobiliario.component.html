@@ -1,0 +1,91 @@
+<h3 style="color: #577f38">Listagem de Cadastros Imobiliário</h3>
+
+<div class="card">
+  <p-toolbar styleClass="p-mb-4">
+    <ng-template pTemplate="left">
+      <button pButton pRipple label="Novo" icon="pi pi-plus" class="p-button-success p-mr-2" (click)="openNew()">
+      </button>
+      <button pButton pRipple label="Excluir" icon="pi pi-trash" class="p-button-danger"
+              (click)="deleteSelectedProducts()">
+      </button>
+    </ng-template>
+  </p-toolbar>
+  <p-table #dt [value]="listaCadastrosImobiliario" [rows]="10" [paginator]="true"
+           [globalFilterFields]="['cep','endereco','unidadeFederativa.sigla','cidade']"
+           [(selection)]="listaCadastrosImobiliarioSelecionados" [rowHover]="true" dataKey="id"
+           currentPageReportTemplate=" {first} - {last} de {totalRecords} registros"
+           [showCurrentPageReport]="true">
+    <ng-template pTemplate="caption">
+      <div class="p-d-flex p-ai-center p-jc-between">
+        <h5 class="p-m-0">Manage Products</h5>
+        <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
+                               placeholder="Busca..."/>
+        </span>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 3rem">
+          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+        </th>
+        <th pSortableColumn="cep">cep
+          <p-sortIcon field="cep"></p-sortIcon>
+        </th>
+        <th>Image</th>
+        <th pSortableColumn="endereco">Endereço
+          <p-sortIcon field="endereco"></p-sortIcon>
+        </th>
+        <th pSortableColumn="unidadeFederativa">Estado
+          <p-sortIcon field="unidadeFederativa"></p-sortIcon>
+        </th>
+        <th pSortableColumn="cidade">Cidade
+          <p-sortIcon field="cidade"></p-sortIcon>
+        </th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-cadastroImobiliario>
+      <tr>
+        <td>
+          <p-tableCheckbox [value]="cadastroImobiliario"></p-tableCheckbox>
+        </td>
+        <td>{{cadastroImobiliario.cep}}</td>
+        <td>{{cadastroImobiliario.endereco}}</td>
+        <td>{{cadastroImobiliario.unidadeFederativa.sigla}}</td>
+        <td>{{cadastroImobiliario.cidade}}</td>
+        <td>
+          <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2"
+                  (click)="editProduct(cadastroImobiliario)"></button>
+          <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
+                  (click)="deleteProduct(cadastroImobiliario)"></button>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="summary">
+      <div class="p-d-flex p-ai-center p-jc-between">
+        Existe um total de {{listaCadastrosImobiliario ? listaCadastrosImobiliario.length : 0 }} cadastro(s)
+        imobiliário.
+      </div>
+    </ng-template>
+  </p-table>
+</div>
+
+
+<!--<div *ngFor="let cadastroImobiliario of listaCadastrosImobiliario, let i = index">
+  <div class="card-header">
+    {{cadastroImobiliario.usuario.nome}} -
+  </div>
+  <div class="card-body">
+    <div class="card-text">
+      <b>CEP:</b>  {{cadastroImobiliario.cep}} // <b>Endereço:</b>
+      {{cadastroImobiliario.tipoLogradouro.descricao}} {{cadastroImobiliario.endereco}}
+      , {{cadastroImobiliario.numero}}
+      , {{cadastroImobiliario?.complemento}}, {{cadastroImobiliario.bairro}} //
+      <b>Cidade:</b> {{cadastroImobiliario.cidade}}
+      , {{cadastroImobiliario.unidadeFederativa.nome}}
+    </div>
+    <a href="#" class="btn btn-primary">Go somewhere</a>
+  </div>
+</div>-->
+

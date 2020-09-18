@@ -1,0 +1,24 @@
+<ng-template #content>
+  <div class="modal-header bg-dark">
+    <h4 class="modal-title pull-left" style="color: whitesmoke">Login</h4>
+    <button type="button" class="close pull-right" style="color: white" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body bg-white">
+    <form>
+      <div class="form-group">
+        <label for="exampleInputEmail1">Email</label>
+        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+               placeholder="Email">
+      </div>
+      <div class="form-group">
+        <label for="exampleInputPassword1">Senha</label>
+        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Senha">
+      </div>
+      <button type="submit" class="btn btn-dark btn-block">Logar</button>
+      <a style="color: darkred!important;" class="form-text text-muted" href="#" (click)="openModal(template)">Não tem
+        conta? Clique aqui para cadastrar-se.</a>
+    </form>
+  </div>
+</ng-template>

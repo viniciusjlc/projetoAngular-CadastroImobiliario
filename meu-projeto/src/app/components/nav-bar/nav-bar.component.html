@@ -1,0 +1,121 @@
+<nav class="navbar navbar-expand-lg navbar-dark background-navbar">
+  <a class="navbar-brand titulo-principal" href="#">Projeto Teste</a>
+  <div class="collapse navbar-collapse border-left" id="navbarContent">
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item" [class.active]="abaAtual == 'home'">
+        <a class="nav-link" href="#" (click)="abaAtual = 'home'">Home</a>
+      </li>
+      <li [hidden]="!isLogado"
+          class="nav-item" [class.active]="abaAtual == 'cadastroImobiliario'">
+        <a class="nav-link" href="#" (click)="abaAtual = 'cadastroImobiliario'">Cadastro Imobiliário</a>
+      </li>
+      <li [hidden]="!isLogado"
+          class="nav-item" [class.active]="abaAtual == 'uf'">
+        <a class="nav-link" href="#" (click)="abaAtual = 'uf'">Unidades Federativas</a>
+      </li>
+      <li [hidden]="!isLogado"
+          class="nav-item" [class.active]="abaAtual == 'tipoLogradouro'">
+        <a class="nav-link" href="#" (click)="abaAtual = 'tipoLogradouro'">Tipo Logradouro</a>
+      </li>
+      <li [hidden]="!isLogado">
+        <a class="nav-link" style="color: white!important; font-weight: bold">Olá, {{usuarioLogin.nome}}</a>
+      </li>
+
+      <li [hidden]="isLogado">
+        <a class="nav-link" href="#" (click)="openModal(modalLogin)">Entre ou Cadastre-se</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<div class="container" [ngSwitch]="abaAtual" style="margin-top: 20px;">
+  <div *ngSwitchCase="'uf'">
+    <app-unidade-federativa></app-unidade-federativa>
+  </div>
+
+  <div *ngSwitchCase="'tipoLogradouro'">
+    <app-tipo-logradouro></app-tipo-logradouro>
+  </div>
+
+  <div *ngSwitchCase="'cadastroImobiliario'">
+    <app-cadastro-imobiliario [idUsuarioAtual]="usuarioLogin.id"></app-cadastro-imobiliario>
+  </div>
+
+  <div *ngSwitchDefault>
+    <div style="border-width: 4px; border-color: #577f38; border-style: solid; border-radius: 19px;">
+      <h3 style="color: #577f38">
+        Bem-vindo a um site desenvolvido para aplicarmos os conhecimentos de Single Page Application desenvolvida em
+        Angula 9!
+      </h3>
+    </div>
+  </div>
+</div>
+
+<ng-template #modalLogin>
+  <div class="modal-header bg-dark">
+    <h4 class="modal-title pull-left" style="color: whitesmoke">Login</h4>
+    <button type="button" class="close pull-right" style="color: white" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <form>
+    <div class="alert alert-danger" role="alert" [hidden]="mensagemErroLogin==null">
+      {{mensagemErroLogin}}
+    </div>
+    <div class="modal-body bg-white">
+      <div class="form-group">
+        <label for="loginInputEmail1">Email:</label>
+        <input type="email" class="form-control" id="loginInputEmail1" aria-describedby="emailHelp"
+               [required]="true" [(ngModel)]="usuarioLogin.email" name="email">
+      </div>
+      <div class="form-group">
+        <label for="loginInputPassword1">Senha:</label>
+        <input type="password" class="form-control" id="loginInputPassword1"
+               [required]="true" [(ngModel)]="usuarioLogin.senha" name="senha">
+      </div>
+      <button (click)="logar()" type="submit" class="btn btn-dark btn-block">Logar</button>
+      <a style="color: darkred!important;" class="form-text text-muted" href="#" (click)="openModal(modalCadastro)">Não
+        tem
+        conta? Clique aqui para cadastrar-se.</a>
+    </div>
+  </form>
+</ng-template>
+
+<ng-template #modalCadastro>
+  <div class="modal-header bg-dark">
+    <h4 class="modal-title pull-left" style="color: whitesmoke">Cadastrar-se</h4>
+  </div>
+  <div class="modal-body bg-white">
+    <form>
+      <div class="alert alert-danger" role="alert" [hidden]="mensagemErroLogin==null">
+        {{mensagemErroCadastro}}
+      </div>
+      <div class="form-group">
+        <label for="cadastroNome">Nome</label>
+        <input type="text" class="form-control" id="cadastroNome"
+               [required]="true" [(ngModel)]="usuarioCadastro.nome" name="nome">
+      </div>
+      <div class="form-group">
+        <label for="cadastroInputEmail1">Email</label>
+        <input type="email" class="form-control" id="cadastroInputEmail1" aria-describedby="emailHelp"
+               [required]="true" [(ngModel)]="usuarioCadastro.email" name="email">
+      </div>
+      <div class="form-group">
+        <label for="cadastroInputPassword1">Senha</label>
+        <input type="password" class="form-control" id="cadastroInputPassword1"
+               [required]="true" [(ngModel)]="usuarioCadastro.senha" name="nome">
+      </div>
+      <div class="form-group">
+        <label for="cadastroInputPassword2">Confirme sua senha</label>
+        <input type="password" class="form-control" id="cadastroInputPassword2"
+               [required]="true" [(ngModel)]="confirmacaoSenha" name="nome">
+      </div>
+      <button type="submit" (click)="cadastrarUsuario()"
+              class="btn btn-success btn-block btn-lg">Cadastrar-se
+      </button>
+      <button type="button" class="btn btn-danger btn-block btn-sm"
+              (click)="[modalRef.hide(), openModal(modalLogin)]">Cancelar
+      </button>
+    </form>
+  </div>
+</ng-template>

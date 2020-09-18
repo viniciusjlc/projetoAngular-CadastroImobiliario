@@ -1,0 +1,13 @@
+.titulo-principal{
+  color: whitesmoke;
+  font-weight: bold;
+  font-size: 150%;
+}
+
+.background-navbar{
+  background-color: #a8d18d !important;
+}
+
+.show{
+  display: block;
+}
