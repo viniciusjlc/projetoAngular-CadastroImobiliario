@@ -1,9 +1,9 @@
-<!--
 <p-dialog [(visible)]="renderizarLogin" [modal]="true" [baseZIndex]="10000"
-          [draggable]="false" [resizable]="false"  [showHeader]="false" >
+          [draggable]="false" [resizable]="false" [showHeader]="false">
   <div class="modal-header bg-dark">
     <h4 class="modal-title pull-left" style="color: whitesmoke">Login</h4>
-    <button type="button" class="close pull-right" style="color: white" aria-label="Close" (click)="renderizarLogin = false">
+    <button type="button" class="close pull-right" style="color: white" aria-label="Close"
+            (click)="renderizarLogin = false">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -28,4 +28,6 @@
         conta? Clique aqui para cadastrar-se.</a>
     </div>
   </form>
-</p-dialog>-->
+</p-dialog>
+
+<app-cadastro-usuario [renderizarCadastro]="renderizarCadastro"></app-cadastro-usuario>

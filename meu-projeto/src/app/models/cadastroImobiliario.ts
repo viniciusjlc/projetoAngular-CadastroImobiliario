@@ -17,24 +17,4 @@ export class CadastroImobiliario {
     public id?: number) {
   }
 
-
- /* get cep(): string {
-    return this._cep;
-  }
-
-  set cep(value: string) {
-    if (value == null) {
-      this._cep = null;
-    }
-    let cepMask = '';
-    const max: number = value.length;
-    for (let i = 0; i < max; i++) {
-      if (i === 4) {
-        cepMask += '-';
-      }
-      cepMask += value[i];
-    }
-    console.log();
-    this._cep = cepMask;
-  }*/
 }

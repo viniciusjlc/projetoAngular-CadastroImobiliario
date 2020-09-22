@@ -23,6 +23,8 @@ import {MenuItem} from 'primeng/api';
 import {MenuItemContent} from 'primeng/menu';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {CadastroUsuarioComponent} from './components/cadastro-usuario/cadastro-usuario.component';
+import {InputMaskModule} from 'primeng/inputmask';
+import {DropdownModule} from 'primeng/dropdown';
 
 @NgModule({
   declarations: [
@@ -49,7 +51,9 @@ import {CadastroUsuarioComponent} from './components/cadastro-usuario/cadastro-u
     InputTextModule,
     DialogModule,
     AccordionModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    InputMaskModule,
+    DropdownModule
   ],
   exports: [BsDropdownModule, TooltipModule, ModalModule],
   providers: [UsuarioService],
