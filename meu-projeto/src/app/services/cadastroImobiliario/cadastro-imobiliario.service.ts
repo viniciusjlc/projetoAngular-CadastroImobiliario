@@ -49,7 +49,7 @@ export class CadastroImobiliarioService {
 
   public async excluir(idCadastroImobiliario): Promise<void> {
     const headers = JwtService.instace.header;
-    await this.http.delete<CadastroImobiliario>(JwtService.instace.urlAPI + this.urlExcluirCadastroImobiliario + idCadastroImobiliario,
+    await this.http.delete<void>(JwtService.instace.urlAPI + this.urlExcluirCadastroImobiliario + idCadastroImobiliario,
       {headers}).toPromise();
   }
 

@@ -6,11 +6,12 @@
       <button pButton pRipple label="Novo" icon="pi pi-plus" class="p-button-success p-mr-2"
               (click)="abrirDialogCadastro()">
       </button>
-      <button pButton pRipple label="Excluir" icon="pi pi-trash" class="p-button-danger"
-              (click)="deletarCadastrosSelecionados()">
+     <!-- <button pButton pRipple label="Excluir" icon="pi pi-trash" class="p-button-danger"
+              (click)="deletarCadastrosSelecionados()">-->
       </button>
     </ng-template>
   </p-toolbar>
+  <p-messages [value]="mensagens"></p-messages>
   <p-table #dt [value]="listaCadastrosImobiliario" [rows]="10" [paginator]="true"
            [globalFilterFields]="['cep','endereco','unidadeFederativa.sigla','cidade']"
            [(selection)]="listaCadastrosImobiliarioSelecionados" [rowHover]="true" dataKey="id"
@@ -27,9 +28,9 @@
     </ng-template>
     <ng-template pTemplate="header">
       <tr>
-        <th style="width: 3rem">
+        <!--<th style="width: 3rem">
           <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-        </th>
+        </th>-->
         <th pSortableColumn="cep">cep
           <p-sortIcon field="cep"></p-sortIcon>
         </th>
@@ -49,9 +50,9 @@
     </ng-template>
     <ng-template pTemplate="body" let-cadastroImobiliario>
       <tr>
-        <td>
+       <!-- <td>
           <p-tableCheckbox [value]="cadastroImobiliario"></p-tableCheckbox>
-        </td>
+        </td>-->
         <td>{{cadastroImobiliario.cep}}</td>
         <td>{{cadastroImobiliario.endereco}}</td>
         <td>{{cadastroImobiliario.unidadeFederativa.sigla}}</td>
@@ -62,7 +63,7 @@
                   (click)="abrirDialogEditar(cadastroImobiliario)"></button>
           <button style="width: 45% !important; height: 2em !important; min-width: 1rem !important;"
                   pButton pRipple icon="pi pi-trash" class="p-button-warning p-mr-2 p-d-inline-block"
-                  (click)="deletarCadastroImobiliario(cadastroImobiliario)"></button>
+                  (click)="confirmarExcluir(cadastroImobiliario)"></button>
         </td>
       </tr>
     </ng-template>
@@ -74,64 +75,96 @@
     </ng-template>
   </p-table>
 
-  <p-dialog header="Cadastro Imobiliário"
+  <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10001"></p-confirmDialog>
+
+  <p-dialog [header]="tituloDlgCadastrarEditar" style="max-width: 850px !important;"
             [(visible)]="renderizarCadastrar" [modal]="true" [baseZIndex]="10000"
             [draggable]="false" [resizable]="false" [showHeader]="true">
     <form>
-      <div class="alert alert-danger" role="alert" [hidden]="mensagemDeErroCadastrar==null">
-        {{mensagemDeErroCadastrar}}
-      </div>
-      <div class="modal-body bg-white">
+      <div class="p-fluid" style="max-width: 850px !important;">
+        <div class="p-field p-grid">
+          <div class="p-col-12 p-md-12">
+            <div class="alert alert-danger" role="alert" [hidden]="mensagemDeErroCadastrar==null">
+              {{mensagemDeErroCadastrar}}
+            </div>
+          </div>
+          <div class="p-col-12 p-md-6" style="margin-top: 2em">
+             <span class="p-float-label">
+               <p-inputMask id="cadastroInputCep" mask="999-9999" [required]="true"
+                            [(ngModel)]="cadastroImobiliario.cep" name="cep"></p-inputMask>
+          <label style="font-size: 1em;" for="cadastroInputCep">Cep</label>
+          </span>
+          </div>
+          <div class="p-col-12 p-md-6" style="margin-top: 2em">
+            <span class="p-float-label">
+               <p-dropdown id="cadastroSelectTipoLog" name="tipoLogradouroSelecionada"
+                           [options]="listaTipoLogradouro" [(ngModel)]="tipoLogradouroSelecionada"
+                           optionLabel="descricao" [showClear]="true" placeholder=" ">
+               </p-dropdown>
+            <label style="font-size: 1em;" for="cadastroSelectTipoLog">Tipo Logradouro</label>
+            </span>
+          </div>
+          <div class="p-col-12 p-md-12" style="margin-top: 2em">
+            <span class="p-float-label">
+              <textarea rows="5" cols="15" pInputTextarea autoResize="autoResize"
+                        id="cadastroTextAreaEndereco" [required]="true"
+                        [(ngModel)]="cadastroImobiliario.endereco" name="endereco">
+              </textarea>
+              <label style="font-size: 1em;" for="cadastroTextAreaEndereco">Endereço</label>
+            </span>
+          </div>
+          <div class="p-col-12 p-md-12" style="margin-top: 2em">
+            <span class="p-float-label">
+              <textarea rows="3" cols="15" pInputTextarea autoResize="autoResize"
+                        id="cadastroTextAreaComplemento" [required]="true"
+                        [(ngModel)]="cadastroImobiliario.complemento" name="complemento">
+              </textarea>
+              <label style="font-size: 1em;" for="cadastroTextAreaComplemento">Complemento</label>
+            </span>
+          </div>
 
-        <div class="form-group">
-          <label for="cadastroSelectTipoLog">Tipo Logradouro:</label>
-          <p-dropdown id="cadastroSelectTipoLog" name="tipoLogradouroSelecionada"
-                      [options]="listaTipoLogradouro" [(ngModel)]="tipoLogradouroSelecionada"
-                      placeholder="Unidade Federativa" optionLabel="descricao" [showClear]="true">
-          </p-dropdown>
-        </div>
-        <div class="form-group">
-          <label for="cadastroInputCep">CEP:</label>
-          <p-inputMask id="cadastroInputCep" mask="999-9999" [required]="true"
-                       [(ngModel)]="cadastroImobiliario.cep" name="cep"
-                       placeholder="999-9999" class="form-control"></p-inputMask>
-        </div>
-        <div class="form-group">
-          <label for="cadastroInputEndereco">Endereço:</label>
-          <input id="cadastroInputEndereco" type="text" class="form-control"
-                 [required]="true" [(ngModel)]="cadastroImobiliario.endereco" name="endereco">
-        </div>
-        <div class="form-group">
-          <label for="cadastroInputComplemento">Complemento:</label>
-          <input id="cadastroInputComplemento" type="text" class="form-control"
-                 [required]="true" [(ngModel)]="cadastroImobiliario.complemento" name="complemento">
-        </div>
-        <div class="form-group">
-          <label for="cadastroInputNumero">Endereço:</label>
-          <input id="cadastroInputNumero" type="text" class="form-control"
-                 [required]="true" [(ngModel)]="cadastroImobiliario.numero" name="numero">
-        </div>
-        <div class="form-group">
-          <label for="cadastroInputBairro">Bairro:</label>
-          <input id="cadastroInputBairro" type="text" class="form-control"
-                 [required]="true" [(ngModel)]="cadastroImobiliario.bairro" name="bairro">
-        </div>
-        <div class="form-group">
-          <label for="cadastroSelectUf">Unidade Federativa:</label>
-          <p-dropdown id="cadastroSelectUf" name="unidadeFederativaSelecionada"
-                      [options]="listaUnidadeFederativas" [(ngModel)]="unidadeFederativaSelecionada"
-                      placeholder="Unidade Federativa" optionLabel="sigla" [showClear]="true">
-          </p-dropdown>
-        </div>
+          <div class="p-col-12 p-md-6" style="margin-top: 2em">
+            <span class="p-float-label">
+              <input id="cadastroInputNumero" type="text" pInputText
+                     [required]="true" [(ngModel)]="cadastroImobiliario.numero" name="numero">
+              <label style="font-size: 1em;" for="cadastroInputNumero">Numero</label>
+            </span>
+          </div>
 
-        <div class="form-group">
-          <label for="cadastroInputCidade">Cidade:</label>
-          <input id="cadastroInputCidade" type="text" class="form-control"
-                 [required]="true" [(ngModel)]="cadastroImobiliario.cidade" name="cidade">
+          <div class="p-col-12 p-md-6" style="margin-top: 2em">
+            <span class="p-float-label">
+              <input id="cadastroInputBairro" type="text" pInputText
+                     [required]="true" [(ngModel)]="cadastroImobiliario.bairro" name="bairro">
+              <label style="font-size: 1em;" for="cadastroInputBairro">Bairro</label>
+            </span>
+          </div>
+
+          <div class="p-col-12 p-md-6" style="margin-top: 2em">
+            <span class="p-float-label">
+                <p-dropdown id="cadastroSelectUf" name="unidadeFederativaSelecionada"
+                            [options]="listaUnidadeFederativas" [(ngModel)]="unidadeFederativaSelecionada"
+                            placeholder=" " optionLabel="sigla" [showClear]="true">
+                </p-dropdown>
+            <label style="font-size: 1em;" for="cadastroSelectUf">Unidade Federativa</label>
+            </span>
+          </div>
+
+          <div class="p-col-12 p-md-6" style="margin-top: 2em">
+            <span class="p-float-label">
+              <input id="cadastroInputCidade" type="text" pInputText
+                     [required]="true" [(ngModel)]="cadastroImobiliario.cidade" name="cidade">
+              <label style="font-size: 1em;" for="cadastroInputCidade">Cidade</label>
+            </span>
+          </div>
+
+          <div class="p-col-12 p-md-12" style="margin-top: 2em">
+            <button type="submit" (click)="salvarCadastroImobiliario()"
+                    class="btn btn-success btn-block btn-lg">Gravar
+            </button>
+          </div>
+
+
         </div>
-        <button type="submit" (click)="salvarCadastroImobiliario()"
-                class="btn btn-success btn-block btn-lg">Gravar
-        </button>
       </div>
     </form>
   </p-dialog>

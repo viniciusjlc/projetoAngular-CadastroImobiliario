@@ -7,11 +7,13 @@ import {UnidadeFederativaService} from '../../services/unidadeFederativa/unidade
 import {TipoLogradouroService} from '../../services/tipoLogradouro/tipo-logradouro.service';
 import {SessionService} from '../../services/session/session.service';
 import {Usuario} from '../../models/usuario';
+import {ConfirmationService, Message} from 'primeng/api';
 
 @Component({
   selector: 'app-cadastro-imobiliario',
   templateUrl: './cadastro-imobiliario.component.html',
-  styleUrls: ['./cadastro-imobiliario.component.css']
+  styleUrls: ['./cadastro-imobiliario.component.css'],
+  providers: [ConfirmationService]
 })
 export class CadastroImobiliarioComponent implements OnInit {
 
@@ -19,20 +21,29 @@ export class CadastroImobiliarioComponent implements OnInit {
   listaCadastrosImobiliario: CadastroImobiliario[];
   listaCadastrosImobiliarioSelecionados: CadastroImobiliario[];
   renderizarCadastrar: boolean;
-  renderizarEditar: boolean;
   mensagemDeErroCadastrar: string = null;
   mensagemDeErroEditar: string = null;
-  cadastroImobiliario: CadastroImobiliario = new CadastroImobiliario('', '', '', '',
-    '', '', new TipoLogradouro('', 0), new UnidadeFederativa('', '', 0));
-  listaUnidadeFederativas: UnidadeFederativa[];
-  listaTipoLogradouro: TipoLogradouro[];
   unidadeFederativaSelecionada: UnidadeFederativa = new UnidadeFederativa('', '', 0);
   tipoLogradouroSelecionada: TipoLogradouro = new TipoLogradouro('', 0);
+  cadastroImobiliario: CadastroImobiliario = new CadastroImobiliario('', '', '', '',
+    '', '', this.tipoLogradouroSelecionada, this.unidadeFederativaSelecionada);
+  listaUnidadeFederativas: UnidadeFederativa[];
+  listaTipoLogradouro: TipoLogradouro[];
+  tituloDlgCadastrarEditar: string = 'Cadastro Imobiliário';
+  mensagens: Message[] = [];
 
 
   constructor(private cadastroImobiliarioService: CadastroImobiliarioService,
               private unidadeFederativaService: UnidadeFederativaService,
-              private tipoLogradouroService: TipoLogradouroService) {
+              private tipoLogradouroService: TipoLogradouroService,
+              private confirmationService: ConfirmationService) {
+  }
+
+  private iniciarCadastroDados(): void {
+    this.unidadeFederativaSelecionada = new UnidadeFederativa('', '', 0);
+    this.tipoLogradouroSelecionada = new TipoLogradouro('', 0);
+    this.cadastroImobiliario = new CadastroImobiliario('', '', '', '',
+      '', '', this.tipoLogradouroSelecionada, this.unidadeFederativaSelecionada);
   }
 
   async ngOnInit(): Promise<void> {
@@ -41,17 +52,20 @@ export class CadastroImobiliarioComponent implements OnInit {
     await this.listarCadastrosPorUsuarioAtual();
   }
 
-  private async listarCadastrosPorUsuarioAtual() {
+  private async listarCadastrosPorUsuarioAtual(): Promise<void> {
     this.listaCadastrosImobiliario = await this.cadastroImobiliarioService.consultarImobiliarioPorUsuario(this.idUsuarioAtual);
   }
 
   abrirDialogCadastro(): void {
+    this.iniciarCadastroDados();
     this.renderizarCadastrar = true;
   }
 
   abrirDialogEditar(cadastroImobiliario): void {
-    /*this.renderizarEditar = true;*/
-    console.log(cadastroImobiliario);
+    this.renderizarCadastrar = true;
+    this.cadastroImobiliario = cadastroImobiliario;
+    this.tipoLogradouroSelecionada = cadastroImobiliario.tipoLogradouro;
+    this.unidadeFederativaSelecionada = cadastroImobiliario.unidadeFederativa;
   }
 
   salvarCadastroImobiliario(): void {
@@ -63,29 +77,40 @@ export class CadastroImobiliarioComponent implements OnInit {
       this.cadastroImobiliarioService.cadastrar(this.cadastroImobiliario);
       this.listarCadastrosPorUsuarioAtual();
       this.mensagemDeErroCadastrar = null;
+      this.renderizarCadastrar = false;
     } else {
       this.mensagemDeErroCadastrar = 'Todos os valores devem ser preenchidos!';
     }
   }
 
-  editarCadastroImobiliario(): void {
-    if (this.verificarSeValoresDoCadastroPreenchidos(this.cadastroImobiliario)) {
-
-      console.log(this.cadastroImobiliario);
-    }
-  }
-
   deletarCadastrosSelecionados(): void {
-
+    console.log(this.listaCadastrosImobiliarioSelecionados);
   }
 
   deletarCadastroImobiliario(cadastroImobiliario): void {
-    console.log(cadastroImobiliario);
+    this.cadastroImobiliarioService.excluir(cadastroImobiliario.id);
+    this.listarCadastrosPorUsuarioAtual();
   }
 
   private verificarSeValoresDoCadastroPreenchidos(cadImobiliario): boolean {
     return !(cadImobiliario.cep === '' || cadImobiliario.endereco === '' || cadImobiliario.complemento === ''
       || cadImobiliario.numero === '' || cadImobiliario.bairro === '' || cadImobiliario.cidade === ''
       || this.tipoLogradouroSelecionada.id === 0 || this.unidadeFederativaSelecionada.id === 0);
+  }
+
+
+  confirmarExcluir(cadImobiliario): void {
+    this.confirmationService.confirm({
+      message: 'Deseja excluir o cadastro cep ' + cadImobiliario.cep + '?',
+      header: 'Confirmação de exclusão',
+      icon: 'pi pi-info-circle',
+      accept: () => {
+        this.deletarCadastroImobiliario(cadImobiliario);
+        this.mensagens = [{severity: 'info', summary: 'Confirmado', detail: 'Cadastro excluido com sucesso'}];
+      },
+      reject: () => {
+        this.mensagens = [{severity: 'info', summary: 'Cancelado', detail: 'Você cancelou a exclusão'}];
+      }
+    });
   }
 }

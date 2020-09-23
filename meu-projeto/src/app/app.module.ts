@@ -25,6 +25,11 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {CadastroUsuarioComponent} from './components/cadastro-usuario/cadastro-usuario.component';
 import {InputMaskModule} from 'primeng/inputmask';
 import {DropdownModule} from 'primeng/dropdown';
+import {InputTextareaModule} from 'primeng/inputtextarea';
+import {routing} from './app.routing';
+import { HomeComponent } from './components/home/home.component';
+import {ConfirmDialogModule} from 'primeng/confirmdialog';
+import {MessagesModule} from 'primeng/messages';
 
 @NgModule({
   declarations: [
@@ -34,7 +39,8 @@ import {DropdownModule} from 'primeng/dropdown';
     UnidadeFederativaComponent,
     TipoLogradouroComponent,
     CadastroImobiliarioComponent,
-    CadastroUsuarioComponent
+    CadastroUsuarioComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
@@ -53,7 +59,11 @@ import {DropdownModule} from 'primeng/dropdown';
     AccordionModule,
     BrowserAnimationsModule,
     InputMaskModule,
-    DropdownModule
+    DropdownModule,
+    InputTextareaModule,
+    routing,
+    ConfirmDialogModule,
+    MessagesModule
   ],
   exports: [BsDropdownModule, TooltipModule, ModalModule],
   providers: [UsuarioService],
