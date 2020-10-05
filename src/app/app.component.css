@@ -1,0 +1,9 @@
+.background-principal {
+  /*background: url('../assets/img/cool-dark-background.jpg') no-repeat fixed center;*/
+  background-size: 100%;
+  background: #e2f0d9;
+  height: 100%;
+  width: 100%;
+  color: #252726;
+  text-align: center;
+}

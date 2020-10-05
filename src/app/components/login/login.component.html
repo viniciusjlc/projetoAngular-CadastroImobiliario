@@ -1,0 +1,33 @@
+<p-dialog [(visible)]="renderizarLogin" [modal]="true" [baseZIndex]="10000"
+          [draggable]="false" [resizable]="false" [showHeader]="false">
+  <div class="modal-header bg-dark">
+    <h4 class="modal-title pull-left" style="color: whitesmoke">Login</h4>
+    <button type="button" class="close pull-right" style="color: white" aria-label="Close"
+            (click)="renderizarLogin = false">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <form>
+    <div class="alert alert-danger" role="alert" [hidden]="mensagemErroLogin==null">
+      {{mensagemErroLogin}}
+    </div>
+    <div class="modal-body bg-white">
+      <div class="form-group">
+        <label for="loginInputEmail1">Email:</label>
+        <input type="email" class="form-control" id="loginInputEmail1" aria-describedby="emailHelp"
+               [required]="true" [(ngModel)]="usuarioLogin.email" name="email">
+      </div>
+      <div class="form-group">
+        <label for="loginInputPassword1">Senha:</label>
+        <input type="password" class="form-control" id="loginInputPassword1"
+               [required]="true" [(ngModel)]="usuarioLogin.senha" name="senha">
+      </div>
+      <button (click)="logar()" type="submit" class="btn btn-dark btn-block">Logar</button>
+      <a style="color: darkred!important;" class="form-text text-muted" href="#" (click)="abrirDialogCadatro()">Não
+        tem
+        conta? Clique aqui para cadastrar-se.</a>
+    </div>
+  </form>
+</p-dialog>
+
+<app-cadastro-usuario [renderizarCadastro]="renderizarCadastro"></app-cadastro-usuario>
