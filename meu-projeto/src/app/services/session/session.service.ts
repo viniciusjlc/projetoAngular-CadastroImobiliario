@@ -1,11 +1,14 @@
 import {Injectable} from '@angular/core';
 import {Usuario} from '../../models/usuario';
+import {JwtService} from '../jwt/jwt.service';
+import {UnidadeFederativa} from '../../models/unidadeFederativa';
+import {HttpClient} from '@angular/common/http';
+import {UsuarioService} from '../usuario/usuario.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SessionService {
-
   constructor() {
   }
 
@@ -38,5 +41,8 @@ export class SessionService {
   public gravarUsuario(usuario): void {
     this._userSession = usuario;
     this._isLogado = true;
+    localStorage.setItem('emailUserSession', usuario.email);
+    console.log('Ao Gravar: ' + localStorage.getItem('emailUserSession'));
   }
+
 }

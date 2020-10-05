@@ -27,7 +27,7 @@ import {InputMaskModule} from 'primeng/inputmask';
 import {DropdownModule} from 'primeng/dropdown';
 import {InputTextareaModule} from 'primeng/inputtextarea';
 import {routing} from './app.routing';
-import { HomeComponent } from './components/home/home.component';
+import {HomeComponent} from './components/home/home.component';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import {MessagesModule} from 'primeng/messages';
 
@@ -61,9 +61,9 @@ import {MessagesModule} from 'primeng/messages';
     InputMaskModule,
     DropdownModule,
     InputTextareaModule,
-    routing,
     ConfirmDialogModule,
-    MessagesModule
+    MessagesModule,
+    routing
   ],
   exports: [BsDropdownModule, TooltipModule, ModalModule],
   providers: [UsuarioService],

@@ -32,7 +32,6 @@ export class CadastroImobiliarioComponent implements OnInit {
   tituloDlgCadastrarEditar: string = 'Cadastro Imobiliário';
   mensagens: Message[] = [];
 
-
   constructor(private cadastroImobiliarioService: CadastroImobiliarioService,
               private unidadeFederativaService: UnidadeFederativaService,
               private tipoLogradouroService: TipoLogradouroService,
@@ -49,6 +48,7 @@ export class CadastroImobiliarioComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     this.listaTipoLogradouro = await this.tipoLogradouroService.listar();
     this.listaUnidadeFederativas = await this.unidadeFederativaService.listar();
+    this.idUsuarioAtual = SessionService.instace.userSession.id;
     await this.listarCadastrosPorUsuarioAtual();
   }
 
@@ -68,14 +68,13 @@ export class CadastroImobiliarioComponent implements OnInit {
     this.unidadeFederativaSelecionada = cadastroImobiliario.unidadeFederativa;
   }
 
-  salvarCadastroImobiliario(): void {
+  async salvarCadastroImobiliario(): Promise<void> {
     if (this.verificarSeValoresDoCadastroPreenchidos(this.cadastroImobiliario)) {
       this.cadastroImobiliario.tipoLogradouro = this.tipoLogradouroSelecionada;
       this.cadastroImobiliario.unidadeFederativa = this.unidadeFederativaSelecionada;
       this.cadastroImobiliario.usuario = new Usuario('', '', '', this.idUsuarioAtual);
-      console.log(this.cadastroImobiliario);
-      this.cadastroImobiliarioService.cadastrar(this.cadastroImobiliario);
-      this.listarCadastrosPorUsuarioAtual();
+      await this.cadastroImobiliarioService.cadastrar(this.cadastroImobiliario);
+      await this.listarCadastrosPorUsuarioAtual();
       this.mensagemDeErroCadastrar = null;
       this.renderizarCadastrar = false;
     } else {
@@ -97,7 +96,6 @@ export class CadastroImobiliarioComponent implements OnInit {
       || cadImobiliario.numero === '' || cadImobiliario.bairro === '' || cadImobiliario.cidade === ''
       || this.tipoLogradouroSelecionada.id === 0 || this.unidadeFederativaSelecionada.id === 0);
   }
-
 
   confirmarExcluir(cadImobiliario): void {
     this.confirmationService.confirm({

@@ -3,6 +3,10 @@ import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
 import {Usuario} from 'src/app/models/usuario';
 import {UsuarioService} from '../../services/usuario/usuario.service';
 import {PrimeNGConfig} from 'primeng/api';
+import {SessionService} from '../../services/session/session.service';
+import {routing} from '../../app.routing';
+import {JwtService} from '../../services/jwt/jwt.service';
+import {RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-navegacao',
@@ -12,7 +16,8 @@ import {PrimeNGConfig} from 'primeng/api';
 export class NavBarComponent implements OnInit {
 
   constructor(private modalService: BsModalService,
-              private usuarioService: UsuarioService) {
+              private usuarioService: UsuarioService,
+              private sessionService: SessionService) {
   }
 
   abaAtual: string = 'home';
@@ -26,7 +31,16 @@ export class NavBarComponent implements OnInit {
   renderizarCadastro: boolean = false;
 
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+    /*console.log('Ao retornar: ' + localStorage.getItem('emailUserSession'));
+    console.log('Ao retornar token: ' + localStorage.getItem('token'));
+    if (localStorage.getItem('emailUserSession').toString() !== 'undefined') {
+      JwtService.instace.gerarHeader(localStorage.getItem('token'));
+      const userSession = await this.usuarioService.consultarPorEmail({
+        email: localStorage.getItem('emailUserSession'), senha: null
+      });
+      this.sessionService.gravarUsuario(userSession);
+    }*/
   }
 
   abrirDialogLogin(): void {
@@ -48,12 +62,12 @@ export class NavBarComponent implements OnInit {
         senha: this.usuarioLogin.senha
       });
       if (this.isLogado) {
-        this.isLogado = true;
         this.renderizarLogin = false;
         this.usuarioLogin = await this.usuarioService.consultarPorEmail({
           email: this.usuarioLogin.email,
           senha: this.usuarioLogin.senha
         });
+        SessionService.instace.gravarUsuario(this.usuarioLogin);
       } else {
         this.mensagemErroLogin = 'Email ou Senha incorretos!';
       }
