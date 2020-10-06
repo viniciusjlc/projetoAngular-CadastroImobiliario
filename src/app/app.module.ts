@@ -30,6 +30,11 @@ import {routing} from './app.routing';
 import {HomeComponent} from './components/home/home.component';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import {MessagesModule} from 'primeng/messages';
+import {NgxMaskModule, IConfig} from 'ngx-mask';
+
+const maskConfig: Partial<IConfig> = {
+  validation: false,
+};
 
 @NgModule({
   declarations: [
@@ -63,6 +68,7 @@ import {MessagesModule} from 'primeng/messages';
     InputTextareaModule,
     ConfirmDialogModule,
     MessagesModule,
+    NgxMaskModule.forRoot(maskConfig),
     routing
   ],
   exports: [BsDropdownModule, TooltipModule, ModalModule],

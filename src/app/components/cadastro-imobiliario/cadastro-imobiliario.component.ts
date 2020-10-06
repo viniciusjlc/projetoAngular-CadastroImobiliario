@@ -77,6 +77,7 @@ export class CadastroImobiliarioComponent implements OnInit {
       await this.listarCadastrosPorUsuarioAtual();
       this.mensagemDeErroCadastrar = null;
       this.renderizarCadastrar = false;
+      this.mensagens = [{severity: 'info', summary: 'Confirmado', detail: 'Cadastro imobiliario salvo com sucesso'}];
     } else {
       this.mensagemDeErroCadastrar = 'Todos os valores devem ser preenchidos!';
     }
@@ -110,5 +111,23 @@ export class CadastroImobiliarioComponent implements OnInit {
         this.mensagens = [{severity: 'info', summary: 'Cancelado', detail: 'Você cancelou a exclusão'}];
       }
     });
+  }
+
+  retornarCEP(cep): string {
+    return this.putMascara(cep, '#####-###');
+  }
+
+  putMascara(valorSemMascara, tipoMascara): string {
+    let valorComMascara = '';
+    let j = 0;
+    for (let i = 0; i < tipoMascara.length(); i++) {
+      if (tipoMascara.charAt(i).equal('#')) {
+        valorComMascara += valorSemMascara.charAt(j);
+        j++;
+      } else {
+        valorComMascara += tipoMascara.charAt(i);
+      }
+    }
+    return valorComMascara;
   }
 }

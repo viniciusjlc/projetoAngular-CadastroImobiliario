@@ -12,8 +12,8 @@
     </ng-template>
   </p-toolbar>
   <p-messages [value]="mensagens"></p-messages>
-  <p-table #dt [value]="listaCadastrosImobiliario" [rows]="10" [paginator]="true"
-           [globalFilterFields]="['cep','endereco','unidadeFederativa.sigla','cidade']"
+  <p-table #dt [value]="listaCadastrosImobiliario" [rows]="10" [paginator]="true" scrollHeight="200px"
+           [globalFilterFields]="['cep','endereco','unidadeFederativa.sigla','cidade']"  [scrollable]="false"
            [(selection)]="listaCadastrosImobiliarioSelecionados" [rowHover]="true" dataKey="id"
            currentPageReportTemplate=" {first} - {last} de {totalRecords} registros"
            [showCurrentPageReport]="true">
@@ -53,7 +53,7 @@
         <!-- <td>
            <p-tableCheckbox [value]="cadastroImobiliario"></p-tableCheckbox>
          </td>-->
-        <td>{{cadastroImobiliario.cep}}</td>
+        <td>{{cadastroImobiliario.cep | mask: '00000-000'}}</td>
         <td>{{cadastroImobiliario.tipoLogradouro.descricao}} {{cadastroImobiliario.endereco}}  {{cadastroImobiliario.bairro}},  {{cadastroImobiliario.complemento}}</td>
         <td>{{cadastroImobiliario.unidadeFederativa.nome}}</td>
         <td>{{cadastroImobiliario.cidade}}</td>
@@ -107,7 +107,7 @@
           <div class="p-col-12 p-md-12" style="margin-top: 2em">
             <span class="p-float-label">
               <textarea rows="5" cols="15" pInputText autoResize="autoResize"
-                        id="cadastroTextAreaEndereco" [required]="true"
+                        id="cadastroTextAreaEndereco" [required]="true" maxlength="1000"
                         [(ngModel)]="cadastroImobiliario.endereco" name="endereco">
               </textarea>
               <label style="font-size: 1em;" for="cadastroTextAreaEndereco">Endereço</label>
@@ -116,7 +116,7 @@
           <div class="p-col-12 p-md-12" style="margin-top: 2em">
             <span class="p-float-label">
               <textarea rows="3" cols="15" pInputText autoResize="autoResize"
-                        id="cadastroTextAreaComplemento" [required]="true"
+                        id="cadastroTextAreaComplemento" [required]="true" maxlength="1000"
                         [(ngModel)]="cadastroImobiliario.complemento" name="complemento">
               </textarea>
               <label style="font-size: 1em;" for="cadastroTextAreaComplemento">Complemento</label>
@@ -125,7 +125,7 @@
 
           <div class="p-col-12 p-md-6" style="margin-top: 2em">
             <span class="p-float-label">
-              <input id="cadastroInputNumero" type="text" pInputText
+              <input id="cadastroInputNumero" type="text" pInputText maxlength="100"
                      [required]="true" [(ngModel)]="cadastroImobiliario.numero" name="numero">
               <label style="font-size: 1em;" for="cadastroInputNumero">Numero</label>
             </span>
@@ -133,7 +133,7 @@
 
           <div class="p-col-12 p-md-6" style="margin-top: 2em">
             <span class="p-float-label">
-              <input id="cadastroInputBairro" type="text" pInputText
+              <input id="cadastroInputBairro" type="text" pInputText maxlength="500"
                      [required]="true" [(ngModel)]="cadastroImobiliario.bairro" name="bairro">
               <label style="font-size: 1em;" for="cadastroInputBairro">Bairro</label>
             </span>

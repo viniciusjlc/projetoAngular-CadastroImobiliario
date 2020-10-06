@@ -7,6 +7,7 @@ import {SessionService} from '../../services/session/session.service';
 import {routing} from '../../app.routing';
 import {JwtService} from '../../services/jwt/jwt.service';
 import {RouterLink} from '@angular/router';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-navegacao',
@@ -16,8 +17,7 @@ import {RouterLink} from '@angular/router';
 export class NavBarComponent implements OnInit {
 
   constructor(private modalService: BsModalService,
-              private usuarioService: UsuarioService,
-              private sessionService: SessionService) {
+              private usuarioService: UsuarioService) {
   }
 
   abaAtual: string = 'home';
@@ -32,18 +32,24 @@ export class NavBarComponent implements OnInit {
 
 
   async ngOnInit(): Promise<void> {
-    /*console.log('Ao retornar: ' + localStorage.getItem('emailUserSession'));
-    console.log('Ao retornar token: ' + localStorage.getItem('token'));
     if (localStorage.getItem('emailUserSession').toString() !== 'undefined') {
       JwtService.instace.gerarHeader(localStorage.getItem('token'));
-      const userSession = await this.usuarioService.consultarPorEmail({
+      const userSession: Usuario = await this.usuarioService.consultarPorEmail({
         email: localStorage.getItem('emailUserSession'), senha: null
       });
-      this.sessionService.gravarUsuario(userSession);
-    }*/
+      SessionService.instace.gravarUsuario(userSession);
+      this.isLogado = true;
+    }
+  }
+
+  logout(): void {
+    SessionService.destruirSessao();
+    this.isLogado = false;
+    this.abaAtual = 'home';
   }
 
   abrirDialogLogin(): void {
+    this.usuarioLogin.senha = '';
     this.mensagemErroLogin = null;
     this.renderizarLogin = true;
   }

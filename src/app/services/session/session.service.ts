@@ -34,15 +34,16 @@ export class SessionService {
   // tslint:disable-next-line:variable-name
   private _isLogado: boolean = false;
 
-  static destruirSessao(usuario): void {
+  static destruirSessao(): void {
     this._instace = new SessionService();
+    localStorage.removeItem('emailUserSession');
+    localStorage.removeItem('token');
   }
 
   public gravarUsuario(usuario): void {
     this._userSession = usuario;
     this._isLogado = true;
     localStorage.setItem('emailUserSession', usuario.email);
-    console.log('Ao Gravar: ' + localStorage.getItem('emailUserSession'));
   }
 
 }

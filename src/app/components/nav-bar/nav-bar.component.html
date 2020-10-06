@@ -21,6 +21,13 @@
         <a class="nav-link" href="#" routerLink="tipoLogradouro"
            (click)="abaAtual = 'tipoLogradouro'">Tipo Logradouro</a>
       </li>
+
+      <li [hidden]="!isLogado"
+          class="nav-item" [class.active]="abaAtual == 'home'">
+        <a class="nav-link" href="#"
+           (click)="logout()">Sair</a>
+      </li>
+
       <li [hidden]="!isLogado">
         <a class="nav-link" style="color: white!important; font-weight: bold">Olá, {{usuarioLogin.nome}}</a>
       </li>

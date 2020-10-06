@@ -25,7 +25,6 @@ export class JwtService {
 
   public gerarHeader(token): void {
     localStorage.setItem('token', token);
-    console.log(localStorage.getItem('token'));
     this.header = new HttpHeaders().set('Authorization', 'Bearer ' + token);
   }
 
