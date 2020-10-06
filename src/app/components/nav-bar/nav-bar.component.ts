@@ -17,7 +17,8 @@ import {Router} from '@angular/router';
 export class NavBarComponent implements OnInit {
 
   constructor(private modalService: BsModalService,
-              private usuarioService: UsuarioService) {
+              private usuarioService: UsuarioService,
+              private router: Router) {
   }
 
   abaAtual: string = 'home';

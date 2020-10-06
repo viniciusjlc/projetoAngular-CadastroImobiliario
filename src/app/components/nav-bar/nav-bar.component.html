@@ -3,7 +3,7 @@
   <div class="collapse navbar-collapse border-left" id="navbarContent">
     <ul class="navbar-nav ml-auto">
       <li class="nav-item" [class.active]="abaAtual == 'home'">
-        <a class="nav-link" href="#"
+        <a class="nav-link" href="#" (click)="abaAtual = 'home'"
            routerLink="">Home</a>
       </li>
       <li [hidden]="!isLogado"

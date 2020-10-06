@@ -90,7 +90,7 @@
           </div>
           <div class="p-col-12 p-md-6" style="margin-top: 2em">
              <span class="p-float-label">
-               <p-inputMask id="cadastroInputCep" mask="999-9999" [required]="true"
+               <p-inputMask id="cadastroInputCep" mask="99999-999" [required]="true"
                             [(ngModel)]="cadastroImobiliario.cep" name="cep"></p-inputMask>
           <label style="font-size: 1em;" for="cadastroInputCep">Cep</label>
           </span>
@@ -159,7 +159,7 @@
 
           <div class="p-col-12 p-md-12" style="margin-top: 2em">
             <button type="submit" (click)="salvarCadastroImobiliario()"
-                    class="btn btn-success btn-block btn-lg">Gravar
+                    class="btn btn-success btn-block btn-lg">Salvar
             </button>
           </div>
         </div>
