@@ -13,7 +13,7 @@ export class JwtService {
   // tslint:disable-next-line:variable-name
   private static _instace: JwtService;
   public header: HttpHeaders;
-  public urlAPI: string = 'http://localhost:8081/api';
+  public urlAPI: string = '/api';
 
 
   static get instace(): JwtService {
