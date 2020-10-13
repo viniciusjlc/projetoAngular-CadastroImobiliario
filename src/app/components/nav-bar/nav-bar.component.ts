@@ -33,6 +33,7 @@ export class NavBarComponent implements OnInit {
 
 
   async ngOnInit(): Promise<void> {
+    this.logar();
     if (localStorage.getItem('emailUserSession').toString() !== 'undefined') {
       JwtService.instace.gerarHeader(localStorage.getItem('token'));
       const userSession: Usuario = await this.usuarioService.consultarPorEmail({

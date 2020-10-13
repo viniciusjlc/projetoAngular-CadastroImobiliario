@@ -13,7 +13,7 @@
   </p-toolbar>
   <p-messages [value]="mensagens"></p-messages>
   <p-table #dt [value]="listaCadastrosImobiliario" [rows]="10" [paginator]="true" scrollHeight="200px"
-           [globalFilterFields]="['cep','endereco','unidadeFederativa.sigla','cidade']"  [scrollable]="false"
+           [globalFilterFields]="['cep','endereco','unidadeFederativa.nome','cidade']"  [scrollable]="false"
            [(selection)]="listaCadastrosImobiliarioSelecionados" [rowHover]="true" dataKey="id"
            currentPageReportTemplate=" {first} - {last} de {totalRecords} registros"
            [showCurrentPageReport]="true">
